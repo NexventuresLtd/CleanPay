@@ -16,6 +16,11 @@ export interface Address {
 // Type for customer updates (partial fields allowed)
 export type UpdateCustomerData = Partial<CreateCustomerData> & { id?: never };
 
+export interface ServiceArea {
+  id: string;
+  name: string;
+}
+
 export interface Customer {
   id: string;
   user?: string;
@@ -47,6 +52,8 @@ export interface Customer {
   payment_methods?: PaymentMethod[];
   customer_notes?: CustomerNote[];
   is_active_flag?: boolean;
+  service_area?: ServiceArea;
+  prepaid_balance?: number;
 }
 
 export interface PaymentMethod {

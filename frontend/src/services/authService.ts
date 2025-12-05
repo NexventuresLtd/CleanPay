@@ -8,7 +8,6 @@ import type {
   PasswordResetRequest,
   PasswordResetConfirm,
   ChangePassword,
-  ApiError,
 } from '../types';
 
 const authService = {

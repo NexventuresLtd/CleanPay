@@ -8,10 +8,7 @@ import customerService, {
   type Customer,
   type CustomerListParams,
   type CreateCustomerData,
-  type CustomerStats,
-  type PaymentMethod,
   type CreatePaymentMethodData,
-  type CustomerNote,
   type CreateCustomerNoteData,
 } from '../services/customerService';
 
@@ -235,7 +232,7 @@ export const useDeletePaymentMethod = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, customerId }: { id: string; customerId: string }) =>
+    mutationFn: ({ id, _customerId }: { id: string; _customerId: string }) =>
       customerService.deletePaymentMethod(id),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: customerKeys.paymentMethods(variables.customerId) });
@@ -251,7 +248,7 @@ export const useSetDefaultPaymentMethod = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, customerId }: { id: string; customerId: string }) =>
+    mutationFn: ({ id, _customerId }: { id: string; _customerId: string }) =>
       customerService.setDefaultPaymentMethod(id),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: customerKeys.paymentMethods(variables.customerId) });
@@ -299,7 +296,7 @@ export const useDeleteCustomerNote = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, customerId }: { id: string; customerId: string }) =>
+    mutationFn: ({ id, _customerId }: { id: string; _customerId: string }) =>
       customerService.deleteNote(id),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: customerKeys.notes(variables.customerId) });
@@ -314,7 +311,7 @@ export const usePinCustomerNote = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, customerId }: { id: string; customerId: string }) =>
+    mutationFn: ({ id, _customerId }: { id: string; _customerId: string }) =>
       customerService.pinNote(id),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: customerKeys.notes(variables.customerId) });
@@ -329,7 +326,7 @@ export const useUnpinCustomerNote = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, customerId }: { id: string; customerId: string }) =>
+    mutationFn: ({ id, _customerId }: { id: string; _customerId: string }) =>
       customerService.unpinNote(id),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: customerKeys.notes(variables.customerId) });
