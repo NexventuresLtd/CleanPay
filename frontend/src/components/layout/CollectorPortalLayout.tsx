@@ -6,6 +6,7 @@
 import { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import Logo from "../../assets/favicon-1.png";
 
 interface CollectorPortalLayoutProps {
   children: React.ReactNode;
@@ -108,20 +109,8 @@ export const CollectorPortalLayout = ({
         {/* Logo */}
         <div className="flex items-center h-16 px-4 border-b border-border-base">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-success rounded-lg flex items-center justify-center">
-              <svg
-                className="w-5 h-5 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"
-                />
-              </svg>
+            <div className="w-11 h-11 rounded-lg flex items-center justify-center">
+              <img src={Logo} alt="" />
             </div>
             <div>
               <span className="font-semibold text-text-primary">

@@ -6,6 +6,7 @@
 import { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import Logo from "../../assets/favicon-1.png";
 
 interface CustomerPortalLayoutProps {
   children: React.ReactNode;
@@ -139,8 +140,8 @@ export const CustomerPortalLayout = ({
         {/* Logo */}
         <div className="flex items-center justify-between h-16 px-4 border-b border-border-base">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">CP</span>
+            <div className="w-11 h-11 rounded-lg flex items-center justify-center">
+              <img src={Logo} alt="" />
             </div>
             <span className="font-semibold text-text-primary">IsukuPay</span>
           </div>
