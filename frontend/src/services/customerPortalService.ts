@@ -57,16 +57,6 @@ export interface CustomerPortalSchedule {
   notes: string;
 }
 
-export interface CustomerPortalInvoice {
-  id: string;
-  invoice_number: string;
-  issue_date: string;
-  due_date: string;
-  amount: number;
-  status: 'draft' | 'sent' | 'paid' | 'overdue' | 'cancelled';
-  description: string;
-}
-
 export interface CustomerPortalPayment {
   id: string;
   amount: number;
@@ -109,7 +99,18 @@ export interface CustomerPortalDashboard {
   summary: CustomerPortalSummary;
   upcoming_schedules: CustomerPortalSchedule[];
   recent_payments: CustomerPortalPayment[];
-  pending_invoices: CustomerPortalInvoice[];
+}
+
+export interface TopUpData {
+  collections: number;
+  payment_method: 'momo' | 'airtel' | 'card';
+}
+
+export interface TopUpResponse {
+  message: string;
+  collections: number;
+  payment_method: string;
+  status: string;
 }
 
 export interface UpdateProfileData {
@@ -187,22 +188,20 @@ export const getSchedules = async (params?: {
 };
 
 /**
- * Get customer invoices
- */
-export const getInvoices = async (params?: {
-  status?: string;
-}): Promise<{ count: number; results: CustomerPortalInvoice[] }> => {
-  const response = await api.get('/portal/invoices/', { params });
-  return response.data;
-};
-
-/**
  * Get customer payment history
  */
 export const getPayments = async (params?: {
   status?: string;
 }): Promise<{ count: number; results: CustomerPortalPayment[] }> => {
   const response = await api.get('/portal/payments/', { params });
+  return response.data;
+};
+
+/**
+ * Submit a top-up request to add collection credits
+ */
+export const submitTopUp = async (data: TopUpData): Promise<TopUpResponse> => {
+  const response = await api.post('/portal/topup/', data);
   return response.data;
 };
 
@@ -214,8 +213,8 @@ const customerPortalService = {
   getPaymentMethods,
   addPaymentMethod,
   getSchedules,
-  getInvoices,
   getPayments,
+  submitTopUp,
 };
 
 export default customerPortalService;

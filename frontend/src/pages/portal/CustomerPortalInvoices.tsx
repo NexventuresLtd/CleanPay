@@ -72,7 +72,7 @@ export const CustomerPortalTopUp = () => {
         </div>
 
         {/* Current Balance */}
-        <Card className="bg-gradient-to-br from-primary to-primary-dark text-white">
+        <Card className="bg-linear-to-br from-primary to-primary-dark text-white">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm opacity-80">Current Balance</p>

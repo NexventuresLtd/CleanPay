@@ -67,7 +67,7 @@ export const CustomerPortalDashboard = () => {
 
         {/* Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <Card className="bg-gradient-to-br from-primary to-primary-dark text-white">
+          <Card className="bg-linear-to-br from-primary to-primary-dark text-white">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm opacity-80">Remaining Collections</p>
