@@ -25,7 +25,7 @@ import {
 
 // Customer Portal Pages
 import { CustomerPortalDashboard } from "./pages/portal/CustomerPortalDashboard";
-import { CustomerPortalInvoices } from "./pages/portal/CustomerPortalInvoices";
+import { CustomerPortalTopUp } from "./pages/portal/CustomerPortalTopUp";
 import { CustomerPortalPayments } from "./pages/portal/CustomerPortalPayments";
 import { CustomerPortalSchedules } from "./pages/portal/CustomerPortalSchedules";
 import { CustomerPortalProfile } from "./pages/portal/CustomerPortalProfile";
@@ -53,7 +53,7 @@ function App() {
 
           {/* Public routes */}
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
+          {/* <Route path="/register" element={<RegisterPage />} /> */}
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
 
           {/* Staff/Admin Protected routes */}
@@ -119,10 +119,7 @@ function App() {
             {/* Customer Portal Routes */}
             <Route element={<CustomerRoute />}>
               <Route path="/portal" element={<CustomerPortalDashboard />} />
-              <Route
-                path="/portal/invoices"
-                element={<CustomerPortalInvoices />}
-              />
+              <Route path="/portal/topup" element={<CustomerPortalTopUp />} />
               <Route
                 path="/portal/payments"
                 element={<CustomerPortalPayments />}

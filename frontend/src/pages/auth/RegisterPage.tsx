@@ -101,7 +101,7 @@ export const RegisterPage = () => {
                 />
               </svg>
             </div>
-            <span className="text-2xl font-bold tracking-tight">CleanPay</span>
+            <span className="text-2xl font-bold tracking-tight">IsukuPay</span>
           </div>
 
           {/* Main Content */}
@@ -113,7 +113,7 @@ export const RegisterPage = () => {
                 journey today
               </h1>
               <p className="text-lg text-white/80 max-w-md leading-relaxed">
-                Join thousands of businesses already using CleanPay to
+                Join thousands of businesses already using IsukuPay to
                 streamline their payment operations.
               </p>
             </div>
@@ -234,7 +234,7 @@ export const RegisterPage = () => {
                 </svg>
               </div>
               <span className="text-xl font-bold text-text-primary">
-                CleanPay
+                IsukuPay
               </span>
             </div>
           </div>
@@ -551,7 +551,7 @@ export const RegisterPage = () => {
           {/* Footer */}
           <div className="mt-8 text-center">
             <p className="text-sm text-text-tertiary">
-              © 2025 CleanPay. All rights reserved.
+              © 2025 IsukuPay. All rights reserved.
             </p>
             <div className="mt-3 flex items-center justify-center gap-4 text-sm">
               <a

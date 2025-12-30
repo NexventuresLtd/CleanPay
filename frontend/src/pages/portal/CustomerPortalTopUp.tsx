@@ -7,7 +7,8 @@ import { useState } from "react";
 import { CustomerPortalLayout } from "../../components/layout/CustomerPortalLayout";
 import { Card } from "../../components/common/Card";
 import { Button } from "../../components/common/Button";
-import { usePortalDashboard } from "../../hooks/useCustomerPortal";
+import { usePortalDashboard, useSubmitTopUp } from "../../hooks/useCustomerPortal";
+import { Alert } from "../../components/common/Alert";
 
 const topUpPackages = [
   {
@@ -45,22 +46,54 @@ const topUpPackages = [
 
 export const CustomerPortalTopUp = () => {
   const { data: dashboard } = usePortalDashboard();
+  const submitTopUp = useSubmitTopUp();
   const [selectedPackage, setSelectedPackage] = useState<string | null>(null);
   const [customAmount, setCustomAmount] = useState("");
-  const [paymentMethod, setPaymentMethod] = useState("momo");
+  const [paymentMethod, setPaymentMethod] = useState<"momo" | "airtel" | "card">("momo");
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [showError, setShowError] = useState(false);
 
-  const handleTopUp = () => {
-    // TODO: Implement top-up payment flow
-    console.log("Top up initiated:", {
-      package: selectedPackage,
-      customAmount,
-      paymentMethod,
-    });
+  const handleTopUp = async () => {
+    const pkg = topUpPackages.find(p => p.id === selectedPackage);
+    const collections = pkg ? pkg.collections : parseInt(customAmount);
+
+    if (!collections || collections <= 0) {
+      setShowError(true);
+      return;
+    }
+
+    try {
+      await submitTopUp.mutateAsync({
+        collections,
+        payment_method: paymentMethod,
+      });
+      setShowSuccess(true);
+      setSelectedPackage(null);
+      setCustomAmount("");
+      setTimeout(() => setShowSuccess(false), 5000);
+    } catch (error) {
+      setShowError(true);
+      setTimeout(() => setShowError(false), 5000);
+    }
   };
 
   return (
     <CustomerPortalLayout>
       <div className="p-6 space-y-6">
+        {/* Success/Error Alerts */}
+        {showSuccess && (
+          <Alert
+            type="success"
+            message="Top-up request submitted successfully! Your payment is being processed."
+          />
+        )}
+        {showError && (
+          <Alert
+            type="error"
+            message="Failed to submit top-up request. Please try again."
+          />
+        )}
+
         {/* Header */}
         <div>
           <h1 className="text-2xl font-bold text-text-primary">
@@ -79,7 +112,9 @@ export const CustomerPortalTopUp = () => {
               <p className="text-4xl font-bold mt-2">
                 {dashboard?.summary.remaining_collections || 0}
               </p>
-              <p className="text-sm opacity-80 mt-1">collections remaining</p>
+              <p className="text-sm opacity-80 mt-1">
+                collections remaining
+              </p>
             </div>
             <div className="w-20 h-20 bg-white/20 rounded-2xl flex items-center justify-center">
               <svg

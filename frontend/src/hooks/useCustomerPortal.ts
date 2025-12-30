@@ -7,6 +7,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import customerPortalService, {
   type UpdateProfileData,
   type CustomerPortalPaymentMethod,
+  type TopUpData,
 } from '../services/customerPortalService';
 
 // ============================================================================
@@ -19,7 +20,6 @@ export const portalKeys = {
   profile: () => [...portalKeys.all, 'profile'] as const,
   paymentMethods: () => [...portalKeys.all, 'payment-methods'] as const,
   schedules: (params?: object) => [...portalKeys.all, 'schedules', params] as const,
-  invoices: (params?: object) => [...portalKeys.all, 'invoices', params] as const,
   payments: (params?: object) => [...portalKeys.all, 'payments', params] as const,
 };
 
@@ -130,20 +130,6 @@ export const usePortalTodaySchedules = () => {
 };
 
 // ============================================================================
-// Invoices Hooks
-// ============================================================================
-
-/**
- * Hook to fetch customer invoices
- */
-export const usePortalInvoices = (params?: { status?: string }) => {
-  return useQuery({
-    queryKey: portalKeys.invoices(params),
-    queryFn: () => customerPortalService.getInvoices(params),
-  });
-};
-
-// ============================================================================
 // Payments Hooks
 // ============================================================================
 
@@ -154,5 +140,25 @@ export const usePortalPayments = (params?: { status?: string }) => {
   return useQuery({
     queryKey: portalKeys.payments(params),
     queryFn: () => customerPortalService.getPayments(params),
+  });
+};
+
+// ============================================================================
+// Top-Up Hooks
+// ============================================================================
+
+/**
+ * Hook to submit a top-up request
+ */
+export const useSubmitTopUp = () => {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: (data: TopUpData) => customerPortalService.submitTopUp(data),
+    onSuccess: () => {
+      // Invalidate relevant queries after successful top-up
+      queryClient.invalidateQueries({ queryKey: portalKeys.dashboard() });
+      queryClient.invalidateQueries({ queryKey: portalKeys.payments() });
+    },
   });
 };

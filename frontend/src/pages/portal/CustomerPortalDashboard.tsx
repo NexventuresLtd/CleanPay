@@ -66,15 +66,13 @@ export const CustomerPortalDashboard = () => {
         </div>
 
         {/* Summary Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <Card className="bg-gradient-to-br from-primary to-primary-dark text-white">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm opacity-80">Outstanding Balance</p>
+                <p className="text-sm opacity-80">Remaining Collections</p>
                 <p className="text-2xl font-bold mt-1">
-                  RWF{" "}
-                  {dashboard?.summary.outstanding_balance?.toLocaleString() ||
-                    0}
+                  {dashboard?.summary.remaining_collections || 0}
                 </p>
               </div>
               <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
@@ -95,7 +93,7 @@ export const CustomerPortalDashboard = () => {
             </div>
           </Card>
 
-          <Card>
+          {/* <Card>
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-text-secondary">Pending Invoices</p>
@@ -119,7 +117,7 @@ export const CustomerPortalDashboard = () => {
                 </svg>
               </div>
             </div>
-          </Card>
+          </Card> */}
 
           <Card>
             <div className="flex items-center justify-between">
@@ -177,7 +175,7 @@ export const CustomerPortalDashboard = () => {
         </div>
 
         {/* Main Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-6">
           {/* Upcoming Collections */}
           <Card>
             <div className="flex items-center justify-between mb-4">
@@ -244,7 +242,7 @@ export const CustomerPortalDashboard = () => {
           </Card>
 
           {/* Pending Invoices */}
-          <Card>
+          {/* <Card>
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-text-primary">
                 Pending Invoices
@@ -299,7 +297,7 @@ export const CustomerPortalDashboard = () => {
                 <p>No pending invoices</p>
               </div>
             )}
-          </Card>
+          </Card> */}
         </div>
 
         {/* Recent Payments */}

@@ -283,8 +283,8 @@ export const CollectorPortalProfile = () => {
 
       {/* App Info */}
       <div className="text-center text-xs text-text-secondary py-4">
-        <p>Clean Pay Collector Hub v1.0</p>
-        <p className="mt-1">© 2024 Clean Pay. All rights reserved.</p>
+        <p>IsukuPay Collector Hub v1.0</p>
+        <p className="mt-1">© 2024 IsukuPay. All rights reserved.</p>
       </div>
     </div>
   );

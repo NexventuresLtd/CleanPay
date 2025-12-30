@@ -1,6 +1,6 @@
 /**
  * Customer Portal Service
- * API client for customer portal endpoints (invoices, payments, schedules, profile)
+ * API client for customer portal endpoints (top-ups, payments, schedules, profile)
  */
 
 import api from './api';
@@ -39,9 +39,8 @@ export interface CustomerPortalProfile {
 
 export interface CustomerPortalSummary {
   payment_methods_count: number;
-  pending_invoices_count: number;
+  remaining_collections: number;
   upcoming_schedules_count: number;
-  outstanding_balance: number;
 }
 
 export interface CustomerPortalSchedule {
@@ -75,7 +74,8 @@ export interface CustomerPortalPayment {
   payment_method: string;
   status: 'pending' | 'completed' | 'failed' | 'refunded';
   reference_number: string;
-  invoice_id: string | null;
+  collections?: number;
+  type?: 'topup' | 'collection';
 }
 
 export interface CustomerPortalPaymentMethod {

@@ -32,8 +32,8 @@ const navigation = [
     ),
   },
   {
-    name: "My Invoices",
-    href: "/portal/invoices",
+    name: "Top Up",
+    href: "/portal/topup",
     icon: (
       <svg
         className="w-5 h-5"
@@ -45,7 +45,7 @@ const navigation = [
           strokeLinecap="round"
           strokeLinejoin="round"
           strokeWidth={2}
-          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+          d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
         />
       </svg>
     ),
@@ -142,7 +142,7 @@ export const CustomerPortalLayout = ({
             <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-sm">CP</span>
             </div>
-            <span className="font-semibold text-text-primary">Clean Pay</span>
+            <span className="font-semibold text-text-primary">IsukuPay</span>
           </div>
           <button
             className="lg:hidden p-2 text-text-secondary hover:text-text-primary"

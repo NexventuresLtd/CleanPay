@@ -105,7 +105,7 @@ export const LoginPage = () => {
                 />
               </svg>
             </div>
-            <span className="text-2xl font-bold tracking-tight">CleanPay</span>
+            <span className="text-2xl font-bold tracking-tight">IsukuPay</span>
           </div>
 
           {/* Main Content */}
@@ -197,7 +197,7 @@ export const LoginPage = () => {
               </div>
             </div>
             <p className="text-white/90 italic leading-relaxed">
-              "CleanPay transformed how we handle payments. We've reduced late
+              "IsukuPay transformed how we handle payments. We've reduced late
               payments by 60% and saved countless hours."
             </p>
             <p className="mt-3 text-sm text-white/70">
@@ -229,7 +229,7 @@ export const LoginPage = () => {
                 </svg>
               </div>
               <span className="text-xl font-bold text-text-primary">
-                CleanPay
+                IsukuPay
               </span>
             </div>
           </div>
@@ -307,19 +307,19 @@ export const LoginPage = () => {
               </Button>
             </form>
 
-            {/* Divider */}
+            {/* Divider
             <div className="relative my-6">
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-border-base"></div>
               </div>
               <div className="relative flex justify-center text-sm">
                 <span className="px-4 bg-bg-base text-text-tertiary">
-                  New to CleanPay?
+                  New to IsukuPay?
                 </span>
               </div>
-            </div>
+            </div> */}
 
-            <Link
+            {/* <Link
               to="/register"
               className="w-full flex items-center justify-center gap-2 px-4 py-3 border-2 border-border-emphasis rounded-xl text-text-primary font-medium hover:bg-bg-subtle hover:border-primary transition-all duration-200"
             >
@@ -337,13 +337,13 @@ export const LoginPage = () => {
                   d="M17 8l4 4m0 0l-4 4m4-4H3"
                 />
               </svg>
-            </Link>
+            </Link> */}
           </div>
 
           {/* Footer */}
           <div className="mt-8 text-center">
             <p className="text-sm text-text-tertiary">
-              © 2025 CleanPay. All rights reserved.
+              © 2025 IsukuPay. All rights reserved.
             </p>
             <div className="mt-3 flex items-center justify-center gap-4 text-sm">
               <a

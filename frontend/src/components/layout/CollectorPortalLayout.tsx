@@ -128,7 +128,7 @@ export const CollectorPortalLayout = ({
                 Collector Hub
               </span>
               <span className="block text-xs text-text-secondary">
-                Clean Pay
+                IsukuPay
               </span>
             </div>
           </div>

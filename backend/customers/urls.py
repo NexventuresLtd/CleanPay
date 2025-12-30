@@ -11,7 +11,7 @@ from .portal_views import (
     CustomerPortalProfileView,
     CustomerPortalPaymentMethodsView,
     CustomerPortalSchedulesView,
-    CustomerPortalInvoicesView,
+    CustomerPortalTopUpView,
     CustomerPortalPaymentsView,
 )
 
@@ -31,6 +31,6 @@ urlpatterns = [
     path('portal/profile/', CustomerPortalProfileView.as_view(), name='portal-profile'),
     path('portal/payment-methods/', CustomerPortalPaymentMethodsView.as_view(), name='portal-payment-methods'),
     path('portal/schedules/', CustomerPortalSchedulesView.as_view(), name='portal-schedules'),
-    path('portal/invoices/', CustomerPortalInvoicesView.as_view(), name='portal-invoices'),
+    path('portal/topup/', CustomerPortalTopUpView.as_view(), name='portal-topup'),
     path('portal/payments/', CustomerPortalPaymentsView.as_view(), name='portal-payments'),
 ]

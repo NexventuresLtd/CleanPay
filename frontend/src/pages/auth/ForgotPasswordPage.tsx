@@ -83,7 +83,7 @@ export const ForgotPasswordPage = () => {
                 />
               </svg>
             </div>
-            <span className="text-2xl font-bold tracking-tight">CleanPay</span>
+            <span className="text-2xl font-bold tracking-tight">IsukuPay</span>
           </div>
 
           {/* Main Content */}
@@ -225,7 +225,7 @@ export const ForgotPasswordPage = () => {
                 </svg>
               </div>
               <span className="text-xl font-bold text-text-primary">
-                CleanPay
+                IsukuPay
               </span>
             </div>
           </div>
@@ -372,7 +372,7 @@ export const ForgotPasswordPage = () => {
           {/* Footer */}
           <div className="mt-8 text-center">
             <p className="text-sm text-text-tertiary">
-              © 2025 CleanPay. All rights reserved.
+              © 2025 IsukuPay. All rights reserved.
             </p>
             <div className="mt-3 flex items-center justify-center gap-4 text-sm">
               <a

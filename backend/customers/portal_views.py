@@ -53,13 +53,11 @@ class CustomerPortalDashboardView(APIView):
                 },
                 'summary': {
                     'payment_methods_count': 0,
-                    'pending_invoices_count': 0,
+                    'remaining_collections': 0,
                     'upcoming_schedules_count': 0,
-                    'outstanding_balance': 0,
                 },
                 'upcoming_schedules': [],
                 'recent_payments': [],
-                'pending_invoices': [],
                 'message': 'Your customer profile is being set up. Please contact support if you need assistance.',
             })
         
@@ -88,9 +86,6 @@ class CustomerPortalDashboardView(APIView):
         # Get recent payments (placeholder - to be implemented when payments app is ready)
         recent_payments = []
         
-        # Get pending invoices (placeholder - to be implemented when invoices app is ready)
-        pending_invoices = []
-        
         # Get account summary
         payment_methods_count = customer.payment_methods.filter(deleted_at__isnull=True).count()
         
@@ -106,13 +101,11 @@ class CustomerPortalDashboardView(APIView):
             },
             'summary': {
                 'payment_methods_count': payment_methods_count,
-                'pending_invoices_count': len(pending_invoices),
+                'remaining_collections': customer.prepaid_balance,
                 'upcoming_schedules_count': len(upcoming_schedule_data),
-                'outstanding_balance': 0,  # Placeholder
             },
             'upcoming_schedules': upcoming_schedule_data,
             'recent_payments': recent_payments,
-            'pending_invoices': pending_invoices,
         }
         
         return Response(dashboard_data)
@@ -258,27 +251,54 @@ class CustomerPortalSchedulesView(APIView):
             })
 
 
-class CustomerPortalInvoicesView(APIView):
-    """Get customer invoices."""
+class CustomerPortalTopUpView(APIView):
+    """Handle customer top-up requests to add more collection credits."""
     
     permission_classes = [CustomerPortalPermission]
     
-    def get(self, request):
-        # Placeholder - to be implemented when invoices app is ready
+    def post(self, request):
+        customer = get_customer_profile(request.user)
+        if not customer:
+            return Response({
+                'error': 'Customer profile not found.'
+            }, status=status.HTTP_404_NOT_FOUND)
+        
+        collections = request.data.get('collections')
+        payment_method = request.data.get('payment_method', 'momo')
+        
+        if not collections or int(collections) <= 0:
+            return Response({
+                'error': 'Invalid number of collections.'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        # TODO: Implement actual payment processing
+        # For now, just return a success message
+        # In production, this would integrate with payment gateway
+        
         return Response({
-            'count': 0,
-            'results': [],
-            'message': 'Invoices feature coming soon.'
-        })
+            'message': 'Top-up request received. Payment processing will be implemented.',
+            'collections': collections,
+            'payment_method': payment_method,
+            'status': 'pending',
+        }, status=status.HTTP_200_OK)
 
 
 class CustomerPortalPaymentsView(APIView):
-    """Get customer payment history."""
+    """Get customer payment history (top-ups and transactions)."""
     
     permission_classes = [CustomerPortalPermission]
     
     def get(self, request):
-        # Placeholder - to be implemented when payments app is ready
+        customer = get_customer_profile(request.user)
+        if not customer:
+            return Response({
+                'count': 0,
+                'results': [],
+                'message': 'Customer profile not yet created.',
+            })
+        
+        # TODO: Implement when payments/transactions app is ready
+        # This should return history of top-ups and collection payments
         return Response({
             'count': 0,
             'results': [],

@@ -241,7 +241,7 @@ export const Sidebar = () => {
             />
           </svg>
         </div>
-        <span className="text-lg font-bold text-text-primary">CleanPay</span>
+        <span className="text-lg font-bold text-text-primary">IsukuPay</span>
       </div>
 
       {/* Navigation */}
