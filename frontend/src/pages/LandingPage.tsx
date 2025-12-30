@@ -51,10 +51,10 @@ const Navbar = () => {
         {/* Logo */}
         <div className="flex items-center gap-2">
           <div>
-            <img className="h-11" src={Logo} alt="CleanPay Logo" />
+            <img className="h-11" src={Logo} alt="IsukuPay Logo" />
           </div>
           <span className="text-2xl font-bold text-slate-900 tracking-tight">
-            Clean<span className="text-teal-700">Pay</span>
+            Isuku<span className="text-teal-700">Pay</span>
           </span>
         </div>
 
@@ -433,7 +433,7 @@ const CTA = () => {
         </h2>
         <p className="text-teal-100 text-lg mb-10 max-w-2xl mx-auto">
           Join the waste management companies that are saving 30% on operational
-          costs and boosting revenue collection with CleanPay.
+          costs and boosting revenue collection with IsukuPay.
         </p>
 
         <div className="flex flex-col sm:flex-row justify-center gap-4">
@@ -460,7 +460,7 @@ const Footer = () => {
                 <CheckCircle2 className="w-5 h-5 text-white" />
               </div>
               <span className="text-2xl font-bold text-white tracking-tight">
-                Clean<span className="text-teal-500">Pay</span>
+                Isuku<span className="text-teal-500">Pay</span>
               </span>
             </div>
             <p className="text-slate-400 max-w-xs">
@@ -523,7 +523,7 @@ const Footer = () => {
         </div>
 
         <div className="pt-8 text-center text-sm text-slate-500">
-          &copy; {new Date().getFullYear()} CleanPay Systems. Built for Kigali.
+          &copy; {new Date().getFullYear()} IsukuPay Systems. Built for Kigali.
         </div>
       </div>
     </footer>
