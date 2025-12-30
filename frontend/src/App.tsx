@@ -41,14 +41,15 @@ import {
 import { StaffRoute } from "./components/auth/StaffRoute";
 import { CustomerRoute } from "./components/auth/CustomerRoute";
 import { CollectorRoute } from "./components/auth/CollectorRoute";
+import LandingPage from "./pages/LandingPage";
 
 function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
         <Routes>
-          {/* Redirect root to login */}
-          <Route path="/" element={<Navigate to="/login" replace />} />
+          {/* Landing Page */}
+          <Route path="/" element={<LandingPage />} />
 
           {/* Public routes */}
           <Route path="/login" element={<LoginPage />} />
