@@ -23,40 +23,49 @@ import type {
 } from "../../services/customerService";
 
 // Validation schema
-const customerSchema = z.object({
-  email: z.string().email("Invalid email address"),
-  full_name: z.string().min(2, "Name must be at least 2 characters"),
-  company_name: z.string().optional(),
-  phone: z.string().optional(),
-  website: z.string().url("Invalid URL").optional().or(z.literal("")),
-  tax_id: z.string().optional(),
-  industry: z.string().optional(),
-  payment_terms: z.enum(["immediate", "net_15", "net_30", "net_60", "net_90"]),
-  credit_limit: z.number().min(0, "Credit limit must be positive").optional(),
-  preferred_payment_method: z.string().optional(),
-  billing_street: z.string().optional(),
-  billing_city: z.string().optional(),
-  billing_state: z.string().optional(),
-  billing_postal_code: z.string().optional(),
-  billing_country: z.string().optional(),
-  shipping_street: z.string().optional(),
-  shipping_city: z.string().optional(),
-  shipping_state: z.string().optional(),
-  shipping_postal_code: z.string().optional(),
-  shipping_country: z.string().optional(),
-  notes: z.string().optional(),
-  tags: z.string().optional(), // Comma-separated tags
-  create_user: z.boolean().optional(),
-  password: z.string().optional(),
-}).superRefine((data, ctx) => {
-  if (data.create_user && (!data.password || data.password.length < 8)) {
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: "Password must be at least 8 characters when creating a user account",
-      path: ["password"],
-    });
-  }
-});
+const customerSchema = z
+  .object({
+    email: z.string().email("Invalid email address"),
+    full_name: z.string().min(2, "Name must be at least 2 characters"),
+    company_name: z.string().optional(),
+    phone: z.string().optional(),
+    website: z.string().url("Invalid URL").optional().or(z.literal("")),
+    tax_id: z.string().optional(),
+    industry: z.string().optional(),
+    payment_terms: z.enum([
+      "immediate",
+      "net_15",
+      "net_30",
+      "net_60",
+      "net_90",
+    ]),
+    credit_limit: z.number().min(0, "Credit limit must be positive").optional(),
+    preferred_payment_method: z.string().optional(),
+    billing_street: z.string().optional(),
+    billing_city: z.string().optional(),
+    billing_state: z.string().optional(),
+    billing_postal_code: z.string().optional(),
+    billing_country: z.string().optional(),
+    shipping_street: z.string().optional(),
+    shipping_city: z.string().optional(),
+    shipping_state: z.string().optional(),
+    shipping_postal_code: z.string().optional(),
+    shipping_country: z.string().optional(),
+    notes: z.string().optional(),
+    tags: z.string().optional(), // Comma-separated tags
+    create_user: z.boolean().optional(),
+    password: z.string().optional(),
+  })
+  .superRefine((data, ctx) => {
+    if (data.create_user && (!data.password || data.password.length < 8)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message:
+          "Password must be at least 8 characters when creating a user account",
+        path: ["password"],
+      });
+    }
+  });
 
 type CustomerFormData = z.infer<typeof customerSchema>;
 
