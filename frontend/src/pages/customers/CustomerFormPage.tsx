@@ -46,6 +46,16 @@ const customerSchema = z.object({
   shipping_country: z.string().optional(),
   notes: z.string().optional(),
   tags: z.string().optional(), // Comma-separated tags
+  create_user: z.boolean().optional(),
+  password: z.string().optional(),
+}).superRefine((data, ctx) => {
+  if (data.create_user && (!data.password || data.password.length < 8)) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "Password must be at least 8 characters when creating a user account",
+      path: ["password"],
+    });
+  }
 });
 
 type CustomerFormData = z.infer<typeof customerSchema>;
@@ -199,6 +209,8 @@ const CustomerFormPage = () => {
           shipping_address: shippingAddress,
           notes: data.notes || undefined,
           tags: tags.length > 0 ? tags : undefined,
+          create_user: data.create_user,
+          password: data.password,
         };
 
         const newCustomer = await createCustomer.mutateAsync(createData);
@@ -566,6 +578,52 @@ const CustomerFormPage = () => {
               </div>
             </div>
           </Card>
+
+          {/* User Account */}
+          {!isEditMode && (
+            <Card>
+              <h2 className="text-xl font-bold text-text-primary mb-6">
+                User Account
+              </h2>
+              <div className="space-y-6">
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    id="create_user"
+                    {...register("create_user")}
+                    className="w-4 h-4 text-primary border-border-base rounded focus:ring-primary"
+                  />
+                  <label
+                    htmlFor="create_user"
+                    className="text-sm font-medium text-text-primary"
+                  >
+                    Create user account for this customer
+                  </label>
+                </div>
+
+                {watch("create_user") && (
+                  <div>
+                    <label
+                      htmlFor="password"
+                      className="block text-sm font-medium text-text-primary mb-2"
+                    >
+                      Password <span className="text-danger">*</span>
+                    </label>
+                    <Input
+                      id="password"
+                      type="password"
+                      {...register("password")}
+                      error={errors.password?.message}
+                      placeholder="Enter password for the user"
+                    />
+                    <p className="mt-1 text-sm text-text-secondary">
+                      The user will be able to log in with their email address.
+                    </p>
+                  </div>
+                )}
+              </div>
+            </Card>
+          )}
 
           {/* Additional Information */}
           <Card>

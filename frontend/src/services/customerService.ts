@@ -134,6 +134,8 @@ export interface CreateCustomerData {
   notes?: string;
   tags?: string[];
   custom_fields?: Record<string, any>;
+  create_user?: boolean;
+  password?: string;
 }
 
 export interface CreatePaymentMethodData {

@@ -208,6 +208,9 @@ class CustomerDetailSerializer(serializers.ModelSerializer):
 class CustomerCreateUpdateSerializer(serializers.ModelSerializer):
     """Serializer for creating and updating customers."""
     
+    create_user = serializers.BooleanField(write_only=True, required=False, default=False)
+    password = serializers.CharField(write_only=True, required=False, style={'input_type': 'password'})
+    
     class Meta:
         model = Customer
         fields = [
@@ -229,7 +232,9 @@ class CustomerCreateUpdateSerializer(serializers.ModelSerializer):
             'status',
             'notes',
             'tags',
-            'custom_fields'
+            'custom_fields',
+            'create_user',
+            'password'
         ]
         read_only_fields = ['id']
     
@@ -241,6 +246,12 @@ class CustomerCreateUpdateSerializer(serializers.ModelSerializer):
         if qs.exists():
             raise serializers.ValidationError("A customer with this email already exists.")
         return value
+    
+    def validate(self, data):
+        """Validate cross-field dependencies."""
+        if data.get('create_user') and not data.get('password'):
+            raise serializers.ValidationError({"password": "Password is required when creating a user account."})
+        return data
     
     def validate_billing_address(self, value):
         """Validate billing address format."""
@@ -260,11 +271,47 @@ class CustomerCreateUpdateSerializer(serializers.ModelSerializer):
         return value
     
     def create(self, validated_data):
-        """Create a new customer and set created_by."""
+        """Create a new customer and optionally a user account."""
+        create_user = validated_data.pop('create_user', False)
+        password = validated_data.pop('password', None)
+        
         request = self.context.get('request')
         if request and hasattr(request, 'user'):
             validated_data['created_by'] = request.user
-        return super().create(validated_data)
+            
+        customer = super().create(validated_data)
+        
+        if create_user and password:
+            email = validated_data.get('email')
+            # Check if user exists
+            if not User.objects.filter(email=email).exists():
+                try:
+                    # Create user
+                    user = User.objects.create_user(
+                        email=email,
+                        password=password,
+                        first_name=validated_data.get('first_name', ''),
+                        last_name=validated_data.get('last_name', ''),
+                        phone=validated_data.get('phone', '')
+                    )
+                    
+                    # Assign role
+                    from accounts.models import Role
+                    try:
+                        customer_role = Role.objects.get(name='customer')
+                        user.role = customer_role
+                        user.save()
+                    except Role.DoesNotExist:
+                        pass
+                        
+                    # Link to customer
+                    customer.user = user
+                    customer.save()
+                except Exception as e:
+                    # Log error but don't fail customer creation
+                    print(f"Failed to create user for customer {customer.id}: {str(e)}")
+        
+        return customer
 
 
 class CustomerStatsSerializer(serializers.Serializer):
