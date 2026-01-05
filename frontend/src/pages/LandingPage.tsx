@@ -21,11 +21,11 @@ interface FeatureCardProps {
   description: string;
 }
 
-interface StepProps {
-  number: string;
-  title: string;
-  description: string;
-}
+// interface StepProps {
+//   number: string;
+//   title: string;
+//   description: string;
+// }
 
 // --- Components ---
 
