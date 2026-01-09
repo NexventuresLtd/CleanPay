@@ -14,6 +14,7 @@ from .collector_views import (
     CollectorPortalRoutesView,
     CollectorPortalUpdateLocationView,
     CollectorPortalProfileView,
+    CollectorPortalCustomersView,
 )
 
 router = DefaultRouter()
@@ -34,4 +35,5 @@ urlpatterns = [
     path('collector-portal/routes/', CollectorPortalRoutesView.as_view(), name='collector-portal-routes'),
     path('collector-portal/location/', CollectorPortalUpdateLocationView.as_view(), name='collector-portal-location'),
     path('collector-portal/profile/', CollectorPortalProfileView.as_view(), name='collector-portal-profile'),
+    path('collector-portal/customers/', CollectorPortalCustomersView.as_view(), name='collector-portal-customers'),
 ]

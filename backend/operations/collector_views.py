@@ -483,3 +483,70 @@ class CollectorPortalProfileView(APIView):
                 for sa in collector.service_areas.all()
             ],
         })
+
+
+class CollectorPortalCustomersView(APIView):
+    """Get customers assigned to collector's routes."""
+    
+    permission_classes = [CollectorPortalPermission]
+    
+    def get(self, request):
+        collector = get_collector_for_user(request.user)
+        
+        if not collector:
+            return Response({
+                'count': 0,
+                'results': [],
+                'message': 'No collector profile linked.',
+            })
+        
+        # Get customers from routes assigned to this collector
+        # Note: In IsukuPay, customers are linked to routes through schedules
+        # We'll get unique customers from the collector's schedules
+        from django.db.models import Prefetch
+        
+        schedules = Schedule.objects.filter(
+            collector=collector
+        ).select_related(
+            'route', 
+            'route__service_area'
+        ).prefetch_related(
+            Prefetch('route__customers', queryset=Customer.objects.all())
+        ).distinct()
+        
+        # Collect unique customers from all routes
+        customers_dict = {}
+        for schedule in schedules:
+            route = schedule.route
+            # Get customers in this route's service area
+            route_customers = Customer.objects.filter(
+                billing_address__district=route.service_area.district if route.service_area else None
+            ) if route.service_area else []
+            
+            for customer in route_customers:
+                if customer.id not in customers_dict:
+                    customers_dict[customer.id] = customer
+        
+        # Build response data
+        customer_data = []
+        for customer in customers_dict.values():
+            customer_data.append({
+                'id': str(customer.id),
+                'full_name': customer.full_name,
+                'card_number': customer.card_number,
+                'phone': customer.phone,
+                'location_display': customer.get_location_display(),
+                'billing_address': customer.billing_address,
+                'prepaid_balance': customer.prepaid_balance,
+                'status': customer.status,
+                'service_provider': customer.service_provider,
+                'created_at': customer.created_at,
+            })
+        
+        # Sort by name
+        customer_data.sort(key=lambda x: x['full_name'])
+        
+        return Response({
+            'count': len(customer_data),
+            'results': customer_data,
+        })

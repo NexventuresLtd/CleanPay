@@ -7,6 +7,7 @@ import { useState } from "react";
 import { CustomerPortalLayout } from "../../components/layout/CustomerPortalLayout";
 import { Card, CardHeader } from "../../components/common/Card";
 import { PageLoader } from "../../components/common/LoadingSpinner";
+import { CustomerCard } from "../../components/customer/CustomerCard";
 import {
   usePortalProfile,
   usePortalPaymentMethods,
@@ -119,6 +120,18 @@ export const CustomerPortalProfile = () => {
             </button>
           )}
         </div>
+
+        {/* Customer Card */}
+        {profile && (
+          <CustomerCard
+            customerName={profile.full_name || ""}
+            cardNumber={profile.card_number || "N/A"}
+            location={profile.location_display || "N/A"}
+            serviceProvider={profile.service_provider || "N/A"}
+            accountStatus={profile.status || "active"}
+            prepaidBalance={profile.prepaid_balance || 0}
+          />
+        )}
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Main Profile Info */}

@@ -78,7 +78,10 @@ const Navbar = () => {
           >
             Solutions
           </a>
-          <Link to="/login" className="text-teal-700 font-semibold hover:bg-teal-50 px-4 py-2 rounded-md transition-colors">
+          <Link
+            to="/login"
+            className="text-teal-700 font-semibold hover:bg-teal-50 px-4 py-2 rounded-md transition-colors"
+          >
             Login
           </Link>
           <button className="bg-teal-700 hover:bg-teal-800 text-white px-5 py-2.5 rounded-md font-semibold transition-all shadow-lg shadow-teal-700/20">
@@ -124,14 +127,6 @@ const Hero = () => {
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
           {/* Text Content */}
           <div className="lg:w-1/2 text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-100 text-emerald-700 text-sm font-semibold mb-6">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-              </span>
-              Now Available in Kigali
-            </div>
-
             <h1 className="text-4xl lg:text-6xl font-bold text-slate-900 leading-tight mb-6">
               Smart Waste <br />
               Collection for{" "}

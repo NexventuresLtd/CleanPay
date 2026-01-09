@@ -205,7 +205,7 @@ export const RegisterPage = () => {
               <div className="text-sm text-white/70">Users</div>
             </div>
             <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center border border-white/20">
-              <div className="text-2xl font-bold">$2B+</div>
+              <div className="text-2xl font-bold">2000+ Collections</div>
               <div className="text-sm text-white/70">Processed</div>
             </div>
           </div>

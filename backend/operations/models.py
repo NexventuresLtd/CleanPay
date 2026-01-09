@@ -400,6 +400,19 @@ class Schedule(models.Model):
         help_text="Scheduled end time"
     )
     
+    # Waste Type
+    WASTE_TYPE_CHOICES = [
+        ('biodegradable', 'Biodegradable'),
+        ('non_biodegradable', 'Non-Biodegradable'),
+        ('mixed', 'Mixed'),
+    ]
+    waste_type = models.CharField(
+        max_length=20,
+        choices=WASTE_TYPE_CHOICES,
+        default='mixed',
+        help_text="Type of waste to be collected"
+    )
+    
     # Actual Times (recorded during collection)
     actual_start_time = models.DateTimeField(
         null=True,

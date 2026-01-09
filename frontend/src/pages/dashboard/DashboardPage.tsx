@@ -44,7 +44,7 @@ export const DashboardPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <StatCard
             title="Total Revenue"
-            value="$24,532"
+            value="RWF 24,532,000"
             change={{ value: "+12.5%", type: "increase" }}
             icon={
               <svg
@@ -91,7 +91,7 @@ export const DashboardPage = () => {
           <StatCard
             title="Pending Payments"
             value="23"
-            change={{ value: "$8,420", type: "neutral" }}
+            change={{ value: "RWF 8,420,000", type: "neutral" }}
             icon={
               <svg
                 className="w-6 h-6"
@@ -359,7 +359,7 @@ export const DashboardPage = () => {
               {
                 action: "Payment received",
                 customer: "Kigali Coffee Co.",
-                amount: "$120.00",
+                amount: "RWF 120,000",
                 time: "2 minutes ago",
                 icon: "💰",
               },
@@ -380,7 +380,7 @@ export const DashboardPage = () => {
               {
                 action: "Invoice sent",
                 customer: "Mille Collines Hotel",
-                amount: "$450.00",
+                amount: "RWF 450,000",
                 time: "2 hours ago",
                 icon: "📧",
               },

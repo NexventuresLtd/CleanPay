@@ -108,11 +108,13 @@ class CustomerListSerializer(serializers.ModelSerializer):
     
     full_name = serializers.SerializerMethodField()
     payment_methods_count = serializers.SerializerMethodField()
+    location_display = serializers.SerializerMethodField()
     
     class Meta:
         model = Customer
         fields = [
             'id',
+            'card_number',
             'company_name',
             'first_name',
             'last_name',
@@ -120,6 +122,9 @@ class CustomerListSerializer(serializers.ModelSerializer):
             'email',
             'phone',
             'status',
+            'prepaid_balance',
+            'service_provider',
+            'location_display',
             'payment_terms',
             'payment_methods_count',
             'created_at',
@@ -129,6 +134,10 @@ class CustomerListSerializer(serializers.ModelSerializer):
     def get_full_name(self, obj):
         """Get customer's full name."""
         return obj.get_full_name()
+    
+    def get_location_display(self, obj):
+        """Get formatted location display."""
+        return obj.get_location_display()
     
     def get_payment_methods_count(self, obj):
         """Get count of active payment methods."""
@@ -140,7 +149,7 @@ class CustomerDetailSerializer(serializers.ModelSerializer):
     
     full_name = serializers.SerializerMethodField()
     billing_address_string = serializers.SerializerMethodField()
-    shipping_address_string = serializers.SerializerMethodField()
+    location_display = serializers.SerializerMethodField()
     created_by_name = serializers.SerializerMethodField()
     payment_methods = PaymentMethodSerializer(many=True, read_only=True)
     customer_notes = CustomerNoteSerializer(many=True, read_only=True)
@@ -150,6 +159,7 @@ class CustomerDetailSerializer(serializers.ModelSerializer):
         model = Customer
         fields = [
             'id',
+            'card_number',
             'user',
             'company_name',
             'first_name',
@@ -157,13 +167,11 @@ class CustomerDetailSerializer(serializers.ModelSerializer):
             'full_name',
             'email',
             'phone',
-            'tax_id',
-            'website',
-            'industry',
             'billing_address',
             'billing_address_string',
-            'shipping_address',
-            'shipping_address_string',
+            'location_display',
+            'service_provider',
+            'prepaid_balance',
             'payment_terms',
             'credit_limit',
             'preferred_payment_method',
@@ -180,7 +188,7 @@ class CustomerDetailSerializer(serializers.ModelSerializer):
             'customer_notes',
             'is_active_flag'
         ]
-        read_only_fields = ['id', 'created_by', 'created_at', 'updated_at']
+        read_only_fields = ['id', 'card_number', 'created_by', 'created_at', 'updated_at']
     
     def get_full_name(self, obj):
         """Get customer's full name."""
@@ -190,9 +198,9 @@ class CustomerDetailSerializer(serializers.ModelSerializer):
         """Get formatted billing address."""
         return obj.get_billing_address_string()
     
-    def get_shipping_address_string(self, obj):
-        """Get formatted shipping address."""
-        return obj.get_shipping_address_string()
+    def get_location_display(self, obj):
+        """Get formatted location display."""
+        return obj.get_location_display()
     
     def get_created_by_name(self, obj):
         """Get the name of the user who created the customer."""

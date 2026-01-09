@@ -112,25 +112,55 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
 
 
 class LoginSerializer(serializers.Serializer):
-    """Serializer for user login."""
+    """Serializer for user login - supports email or card_number."""
     
-    email = serializers.EmailField(required=True)
+    email = serializers.EmailField(required=False, allow_blank=True)
+    card_number = serializers.CharField(required=False, allow_blank=True, max_length=8)
     password = serializers.CharField(required=True, write_only=True)
     
     def validate(self, attrs):
         email = attrs.get('email')
+        card_number = attrs.get('card_number')
         password = attrs.get('password')
         
-        if email and password:
+        # Must provide either email or card_number
+        if not email and not card_number:
+            raise serializers.ValidationError('Must include either "email" or "card_number".')
+        
+        if not password:
+            raise serializers.ValidationError('Must include "password".')
+        
+        user = None
+        
+        # Try card_number login first (for customers)
+        if card_number:
+            from customers.models import Customer
+            try:
+                customer = Customer.objects.select_related('user').get(card_number=card_number)
+                if customer.user:
+                    user = customer.user
+                    if user.check_password(password):
+                        if not user.is_active:
+                            raise serializers.ValidationError('User account is disabled.')
+                    else:
+                        user = None
+                else:
+                    raise serializers.ValidationError('No user account linked to this card.')
+            except Customer.DoesNotExist:
+                raise serializers.ValidationError('Invalid card number.')
+        
+        # Try email login (for staff/admin)
+        if not user and email:
             user = authenticate(username=email, password=password)
-            if not user:
-                raise serializers.ValidationError('Unable to log in with provided credentials.')
-            if not user.is_active:
-                raise serializers.ValidationError('User account is disabled.')
-            if not user.is_verified:
-                raise serializers.ValidationError('Email is not verified.')
-        else:
-            raise serializers.ValidationError('Must include "email" and "password".')
+        
+        if not user:
+            raise serializers.ValidationError('Unable to log in with provided credentials.')
+        
+        if not user.is_active:
+            raise serializers.ValidationError('User account is disabled.')
+        
+        if not user.is_verified:
+            raise serializers.ValidationError('Email is not verified.')
         
         attrs['user'] = user
         return attrs

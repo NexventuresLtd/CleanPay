@@ -34,6 +34,15 @@ class Customer(models.Model):
     
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     
+    # IsukuPay Card Number (8-digit unique ID for customer login)
+    card_number = models.CharField(
+        max_length=8,
+        unique=True,
+        blank=True,
+        null=True,
+        help_text="8-digit IsukuPay card number for customer login"
+    )
+    
     # User relationship (optional - for customers with login accounts)
     user = models.OneToOneField(
         User,
@@ -62,19 +71,25 @@ class Customer(models.Model):
     website = models.URLField(blank=True)
     industry = models.CharField(max_length=100, blank=True)
     
-    # Address Information (stored as JSON for flexibility)
+    # Address Information for Rwanda (District, Sector, Cell, Village)
     billing_address = models.JSONField(
         default=dict,
         blank=True,
-        help_text="JSON format: {street, city, state, postal_code, country}"
-    )
-    shipping_address = models.JSONField(
-        default=dict,
-        blank=True,
-        help_text="JSON format: {street, city, state, postal_code, country}"
+        help_text="JSON format: {district, sector, cell, village, street}"
     )
     
-    # Payment Settings
+    # Service Provider Information
+    service_provider = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text="Name of the waste collection service provider (e.g., C&GS Ltd)"
+    )
+    
+    # Payment Settings (Prepaid balance for waste collection counts)
+    prepaid_balance = models.IntegerField(
+        default=0,
+        help_text="Number of remaining waste collections"
+    )
     payment_terms = models.CharField(
         max_length=20,
         choices=PAYMENT_TERMS_CHOICES,
@@ -130,30 +145,48 @@ class Customer(models.Model):
         return f"{self.first_name} {self.last_name}".strip()
     
     def get_billing_address_string(self):
-        """Format billing address as a string."""
+        """Format billing address as a string for Rwanda."""
         if not self.billing_address:
             return ""
         addr = self.billing_address
         parts = [
-            addr.get('street', ''),
-            addr.get('city', ''),
-            f"{addr.get('state', '')} {addr.get('postal_code', '')}".strip(),
-            addr.get('country', '')
+            addr.get('district', ''),
+            addr.get('sector', ''),
+            addr.get('cell', ''),
+            addr.get('village', ''),
+            addr.get('street', '')
         ]
-        return ", ".join(filter(None, parts))
+        return " · ".join(filter(None, parts))
+    
+    def get_location_display(self):
+        """Get formatted location for display (Sector · Cell · Village)."""
+        if not self.billing_address:
+            return ""
+        addr = self.billing_address
+        parts = [
+            addr.get('sector', ''),
+            addr.get('cell', ''),
+            addr.get('village', '')
+        ]
+        return " · ".join(filter(None, parts))
     
     def get_shipping_address_string(self):
-        """Format shipping address as a string."""
-        if not self.shipping_address:
-            return ""
-        addr = self.shipping_address
-        parts = [
-            addr.get('street', ''),
-            addr.get('city', ''),
-            f"{addr.get('state', '')} {addr.get('postal_code', '')}".strip(),
-            addr.get('country', '')
-        ]
-        return ", ".join(filter(None, parts))
+        """Deprecated - returns billing address for compatibility."""
+        return self.get_billing_address_string()
+    
+    def generate_card_number(self):
+        """Generate a unique 8-digit card number."""
+        import random
+        while True:
+            card_num = ''.join([str(random.randint(0, 9)) for _ in range(8)])
+            if not Customer.objects.filter(card_number=card_num).exists():
+                return card_num
+    
+    def save(self, *args, **kwargs):
+        """Override save to auto-generate card number if not set."""
+        if not self.card_number:
+            self.card_number = self.generate_card_number()
+        super().save(*args, **kwargs)
     
     def soft_delete(self):
         """Soft delete the customer."""

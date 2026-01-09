@@ -182,28 +182,6 @@ export const LoginPage = () => {
               </div>
             </div>
           </div>
-
-          {/* Testimonial/Stats */}
-          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-            <div className="flex items-center gap-4 mb-4">
-              <div className="flex -space-x-2">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-300 to-blue-500 border-2 border-white/30"></div>
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-300 to-green-500 border-2 border-white/30"></div>
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-300 to-purple-500 border-2 border-white/30"></div>
-              </div>
-              <div className="text-sm text-white/80">
-                <span className="font-semibold text-white">2,000+</span>{" "}
-                businesses trust us
-              </div>
-            </div>
-            <p className="text-white/90 italic leading-relaxed">
-              "IsukuPay transformed how we handle payments. We've reduced late
-              payments by 60% and saved countless hours."
-            </p>
-            <p className="mt-3 text-sm text-white/70">
-              — Sarah Chen, Finance Director
-            </p>
-          </div>
         </div>
       </div>
 
