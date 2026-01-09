@@ -22,6 +22,9 @@ import {
   ScheduleFormPage,
 } from "./pages/operations";
 
+// System Admin Pages
+import SystemAdminDashboard from "./pages/admin/SystemAdminDashboard";
+
 // Customer Portal Pages
 import { CustomerPortalDashboard } from "./pages/portal/CustomerPortalDashboard";
 import { CustomerPortalTopUp } from "./pages/portal/CustomerPortalTopUp";
@@ -58,6 +61,13 @@ function App() {
 
           {/* Staff/Admin Protected routes */}
           <Route element={<ProtectedRoute />}>
+            {/* System Admin Routes */}
+            <Route path="/system-admin" element={<SystemAdminDashboard />} />
+            <Route
+              path="/system-admin/companies/:id"
+              element={<SystemAdminDashboard />}
+            />
+
             <Route element={<StaffRoute />}>
               {/* Dashboard */}
               <Route path="/dashboard" element={<DashboardPage />} />

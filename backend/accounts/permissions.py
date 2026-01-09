@@ -1,13 +1,23 @@
 from rest_framework import permissions
 
 
-class IsAdmin(permissions.BasePermission):
-    """Permission check for admin users."""
+class IsSystemAdmin(permissions.BasePermission):
+    """Permission check for system admin users."""
     
     def has_permission(self, request, view):
         return request.user and request.user.is_authenticated and (
             request.user.is_superuser or 
-            (request.user.role and request.user.role.name == 'admin')
+            (request.user.role and request.user.role.name == 'system_admin')
+        )
+
+
+class IsAdmin(permissions.BasePermission):
+    """Permission check for company admin users."""
+    
+    def has_permission(self, request, view):
+        return request.user and request.user.is_authenticated and (
+            request.user.is_superuser or 
+            (request.user.role and request.user.role.name in ['system_admin', 'admin'])
         )
 
 

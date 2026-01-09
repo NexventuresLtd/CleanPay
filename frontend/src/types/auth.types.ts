@@ -3,7 +3,8 @@
 import type { User } from "./user.types";
 
 export interface LoginCredentials {
-  email: string;
+  email?: string;
+  card_number?: string;
   password: string;
 }
 

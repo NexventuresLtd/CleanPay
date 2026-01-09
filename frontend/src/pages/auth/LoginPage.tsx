@@ -9,16 +9,23 @@ import { Input } from "../../components/common/Input";
 import { Alert } from "../../components/common/Alert";
 import type { LoginCredentials } from "../../types";
 
-const loginSchema = z.object({
-  email: z.string().email("Please enter a valid email address"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
-});
+const loginSchema = z
+  .object({
+    email: z.string().optional(),
+    card_number: z.string().optional(),
+    password: z.string().min(1, "Password is required"),
+  })
+  .refine((data) => data.email || data.card_number, {
+    message: "Please enter either email or card number",
+    path: ["email"],
+  });
 
 export const LoginPage = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [loginMethod, setLoginMethod] = useState<"email" | "card">("email");
 
   const {
     register,
@@ -234,16 +241,54 @@ export const LoginPage = () => {
               </div>
             )}
 
+            {/* Login Method Toggle */}
+            <div className="flex gap-2 mb-6 p-1 bg-bg-subtle rounded-lg">
+              <button
+                type="button"
+                onClick={() => setLoginMethod("email")}
+                className={`flex-1 px-4 py-2 rounded-md text-sm font-medium transition-all ${
+                  loginMethod === "email"
+                    ? "bg-bg-base text-primary shadow-sm"
+                    : "text-text-secondary hover:text-text-primary"
+                }`}
+              >
+                Email Login
+              </button>
+              <button
+                type="button"
+                onClick={() => setLoginMethod("card")}
+                className={`flex-1 px-4 py-2 rounded-md text-sm font-medium transition-all ${
+                  loginMethod === "card"
+                    ? "bg-bg-base text-primary shadow-sm"
+                    : "text-text-secondary hover:text-text-primary"
+                }`}
+              >
+                Card Login
+              </button>
+            </div>
+
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-              <Input
-                label="Email address"
-                type="email"
-                placeholder="name@company.com"
-                autoComplete="email"
-                fullWidth
-                error={errors.email?.message}
-                {...register("email")}
-              />
+              {loginMethod === "email" ? (
+                <Input
+                  label="Email address"
+                  type="email"
+                  placeholder="name@company.com"
+                  autoComplete="email"
+                  fullWidth
+                  error={errors.email?.message}
+                  {...register("email")}
+                />
+              ) : (
+                <Input
+                  label="Card Number"
+                  type="text"
+                  placeholder="Enter your 8-digit card number"
+                  maxLength={8}
+                  fullWidth
+                  error={errors.card_number?.message}
+                  {...register("card_number")}
+                />
+              )}
 
               <Input
                 label="Password"

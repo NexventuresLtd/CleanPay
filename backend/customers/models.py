@@ -43,6 +43,16 @@ class Customer(models.Model):
         help_text="8-digit IsukuPay card number for customer login"
     )
     
+    # Company relationship (multi-tenant support)
+    company = models.ForeignKey(
+        'accounts.Company',
+        on_delete=models.CASCADE,
+        related_name='customers',
+        null=True,
+        blank=True,
+        help_text="Waste collection company serving this customer"
+    )
+    
     # User relationship (optional - for customers with login accounts)
     user = models.OneToOneField(
         User,

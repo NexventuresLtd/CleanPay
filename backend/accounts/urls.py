@@ -5,6 +5,7 @@ from .views import (
     RegisterView, LoginView, LogoutView, UserViewSet,
     PasswordResetViewSet, RoleViewSet, AuditLogViewSet
 )
+from .system_admin_views import SystemAdminCompanyViewSet
 
 router = DefaultRouter()
 router.register('users', UserViewSet, basename='user')
@@ -13,6 +14,9 @@ router.register('audit-logs', AuditLogViewSet, basename='audit-log')
 router.register('auth', RegisterView, basename='register')
 router.register('auth/logout', LogoutView, basename='logout')
 router.register('auth/password-reset', PasswordResetViewSet, basename='password-reset')
+
+# System Admin routes
+router.register('system-admin/companies', SystemAdminCompanyViewSet, basename='system-admin-company')
 
 urlpatterns = [
     path('auth/login/', LoginView.as_view(), name='login'),

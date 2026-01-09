@@ -2,6 +2,35 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils.translation import gettext_lazy as _
 from .models import User, Role, PasswordResetToken, AuditLog
+from .company_models import Company
+
+
+@admin.register(Company)
+class CompanyAdmin(admin.ModelAdmin):
+    list_display = ('name', 'email', 'status', 'is_verified', 'customer_count', 'collector_count', 'created_at')
+    list_filter = ('status', 'is_verified', 'created_at')
+    search_fields = ('name', 'email', 'registration_number')
+    readonly_fields = ('id', 'created_at', 'updated_at', 'customer_count', 'collector_count')
+    fieldsets = (
+        ('Basic Information', {
+            'fields': ('name', 'registration_number', 'tax_id', 'email', 'phone', 'website')
+        }),
+        ('Address', {
+            'fields': ('address', 'service_districts')
+        }),
+        ('Status & Verification', {
+            'fields': ('status', 'is_verified')
+        }),
+        ('License', {
+            'fields': ('license_start_date', 'license_end_date', 'max_customers', 'max_collectors')
+        }),
+        ('Branding', {
+            'fields': ('logo', 'primary_color', 'prepaid_collection_price')
+        }),
+        ('Metadata', {
+            'fields': ('notes', 'created_by', 'created_at', 'updated_at', 'customer_count', 'collector_count')
+        }),
+    )
 
 
 @admin.register(Role)

@@ -23,6 +23,17 @@ class ServiceArea(models.Model):
     ]
     
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    
+    # Company relationship (multi-tenant support)
+    company = models.ForeignKey(
+        'accounts.Company',
+        on_delete=models.CASCADE,
+        related_name='service_areas',
+        null=True,
+        blank=True,
+        help_text="Company managing this service area"
+    )
+    
     name = models.CharField(max_length=255, help_text="Name of the service area (e.g., 'Kimironko Cell')")
     code = models.CharField(max_length=50, unique=True, help_text="Unique code for the area")
     description = models.TextField(blank=True, help_text="Additional details about the area")
@@ -244,6 +255,17 @@ class Collector(models.Model):
     ]
     
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    
+    # Company relationship (multi-tenant support)
+    company = models.ForeignKey(
+        'accounts.Company',
+        on_delete=models.CASCADE,
+        related_name='collectors',
+        null=True,
+        blank=True,
+        help_text="Company employing this collector"
+    )
+    
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,

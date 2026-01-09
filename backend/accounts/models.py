@@ -35,6 +35,7 @@ class UserManager(BaseUserManager):
 class Role(models.Model):
     """Role model for role-based access control."""
     
+    SYSTEM_ADMIN = 'system_admin'
     ADMIN = 'admin'
     FINANCE_MANAGER = 'finance_manager'
     ACCOUNTANT = 'accountant'
@@ -43,7 +44,8 @@ class Role(models.Model):
     COLLECTOR = 'collector'
     
     ROLE_CHOICES = [
-        (ADMIN, 'Administrator'),
+        (SYSTEM_ADMIN, 'System Administrator'),
+        (ADMIN, 'Company Administrator'),
         (FINANCE_MANAGER, 'Finance Manager'),
         (COLLECTOR, 'Collector'),
         (CUSTOMER_SERVICE, 'Customer Service'),
@@ -75,9 +77,19 @@ class User(AbstractUser):
     phone = models.CharField(max_length=20, blank=True, null=True)
     role = models.ForeignKey(Role, on_delete=models.PROTECT, related_name='users', null=True, blank=True)
     
+    # Company association (for multi-tenant support)
+    company = models.ForeignKey(
+        'Company',
+        on_delete=models.CASCADE,
+        related_name='users',
+        null=True,
+        blank=True,
+        help_text="Company this user belongs to (null for system admins)"
+    )
+    
     # Profile fields
     avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
-    company = models.CharField(max_length=255, blank=True)
+    company_name = models.CharField(max_length=255, blank=True, help_text="Deprecated - use company FK")
     job_title = models.CharField(max_length=100, blank=True)
     address = models.TextField(blank=True)
     city = models.CharField(max_length=100, blank=True)
