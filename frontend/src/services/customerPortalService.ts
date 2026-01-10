@@ -95,6 +95,9 @@ export interface CustomerPortalDashboard {
     company_name: string;
     status: string;
     payment_terms: string;
+    card_number?: string;
+    prepaid_balance?: number;
+    service_area_name?: string;
   };
   summary: CustomerPortalSummary;
   upcoming_schedules: CustomerPortalSchedule[];

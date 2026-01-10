@@ -98,6 +98,9 @@ class CustomerPortalDashboardView(APIView):
                 'company_name': customer.company_name,
                 'status': customer.status,
                 'payment_terms': customer.payment_terms,
+                'card_number': customer.card_number,
+                'prepaid_balance': customer.prepaid_balance,
+                'service_area_name': None,  # Customer model doesn't have service_area field
             },
             'summary': {
                 'payment_methods_count': payment_methods_count,

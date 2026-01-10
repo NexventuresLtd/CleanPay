@@ -82,67 +82,66 @@ export interface CompanyStats {
 const companyService = {
   // List all companies
   async getCompanies(): Promise<{ count: number; results: Company[] }> {
-    const response = await api.get<{ count: number; results: Company[] }>('/accounts/admin/companies/');
+    const response = await api.get<{ count: number; results: Company[] }>('/system-admin/companies/');
     return response.data;
   },
 
   // Get single company
   async getCompany(id: string): Promise<Company> {
-    const response = await api.get<Company>(`/accounts/admin/companies/${id}/`);
+    const response = await api.get<Company>(`/system-admin/companies/${id}/`);
     return response.data;
   },
 
   // Create company
   async createCompany(data: CreateCompanyData): Promise<Company> {
-    const response = await api.post<Company>('/accounts/admin/companies/', data);
+    const response = await api.post<Company>('/system-admin/companies/', data);
     return response.data;
   },
 
   // Update company
   async updateCompany(id: string, data: UpdateCompanyData): Promise<Company> {
-    const response = await api.patch<Company>(`/accounts/admin/companies/${id}/`, data);
+    const response = await api.patch<Company>(`/system-admin/companies/${id}/`, data);
     return response.data;
   },
 
   // Delete company
   async deleteCompany(id: string): Promise<void> {
-    await api.delete(`/accounts/admin/companies/${id}/`);
+    await api.delete(`/system-admin/companies/${id}/`);
   },
 
   // Activate company
   async activateCompany(id: string): Promise<Company> {
-    const response = await api.post<Company>(`/accounts/admin/companies/${id}/activate/`);
+    const response = await api.post<Company>(`/system-admin/companies/${id}/activate/`);
     return response.data;
   },
 
   // Suspend company
   async suspendCompany(id: string): Promise<Company> {
-    const response = await api.post<Company>(`/accounts/admin/companies/${id}/suspend/`);
+    const response = await api.post<Company>(`/system-admin/companies/${id}/suspend/`);
     return response.data;
   },
 
   // Verify company
   async verifyCompany(id: string): Promise<Company> {
-    const response = await api.post<Company>(`/accounts/admin/companies/${id}/verify/`);
+    const response = await api.post<Company>(`/system-admin/companies/${id}/verify/`);
     return response.data;
   },
 
   // Get company stats
   async getCompanyStats(id: string): Promise<{
-    customer_count: number;
-    collector_count: number;
+    total_customers: number;
+    total_collectors: number;
     active_customers: number;
     collections_today: number;
-    collections_this_month: number;
-    revenue_this_month: string;
+    service_areas: number;
   }> {
-    const response = await api.get(`/accounts/admin/companies/${id}/stats/`);
+    const response = await api.get(`/system-admin/companies/${id}/stats/`);
     return response.data;
   },
 
   // Get system-wide statistics
   async getSystemStats(): Promise<CompanyStats> {
-    const response = await api.get<CompanyStats>('/accounts/admin/companies/stats/');
+    const response = await api.get<CompanyStats>('/system-admin/companies/statistics/');
     return response.data;
   },
 };

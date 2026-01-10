@@ -30,6 +30,7 @@ export const LoginPage = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<LoginCredentials>({
     resolver: zodResolver(loginSchema),
@@ -37,6 +38,7 @@ export const LoginPage = () => {
 
   const STAFF_ROLES = [
     "admin",
+    "system_admin",
     "finance_manager",
     "accountant",
     "customer_service",
@@ -54,8 +56,11 @@ export const LoginPage = () => {
       if (storedUser) {
         const user = JSON.parse(storedUser);
         const userRole = user.role_details?.name || user.role;
+        console.log("User role:", userRole);
         // Redirect based on role
-        if (userRole && STAFF_ROLES.includes(userRole)) {
+        if (userRole && userRole === "system_admin") {
+          navigate("/system-admin");
+        } else if (STAFF_ROLES.includes(userRole)) {
           navigate("/dashboard");
         } else if (userRole === "collector") {
           navigate("/collector");
@@ -94,7 +99,7 @@ export const LoginPage = () => {
           }}
         ></div>
 
-        <div className="relative z-10 flex flex-col justify-between p-12 text-white w-full">
+        <div className="relative z-10 flex flex-col justify-evenly p-12 text-white w-full">
           {/* Logo */}
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
@@ -245,7 +250,10 @@ export const LoginPage = () => {
             <div className="flex gap-2 mb-6 p-1 bg-bg-subtle rounded-lg">
               <button
                 type="button"
-                onClick={() => setLoginMethod("email")}
+                onClick={() => {
+                  setLoginMethod("email");
+                  setValue("card_number", "");
+                }}
                 className={`flex-1 px-4 py-2 rounded-md text-sm font-medium transition-all ${
                   loginMethod === "email"
                     ? "bg-bg-base text-primary shadow-sm"
@@ -256,7 +264,10 @@ export const LoginPage = () => {
               </button>
               <button
                 type="button"
-                onClick={() => setLoginMethod("card")}
+                onClick={() => {
+                  setLoginMethod("card");
+                  setValue("email", "");
+                }}
                 className={`flex-1 px-4 py-2 rounded-md text-sm font-medium transition-all ${
                   loginMethod === "card"
                     ? "bg-bg-base text-primary shadow-sm"

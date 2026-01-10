@@ -4,7 +4,7 @@ import type { RegisterData } from "./auth.types";
 
 export interface Role {
   id: string;
-  name: 'admin' | 'finance_manager' | 'accountant' | 'customer_service' | 'customer';
+  name: 'admin' | 'finance_manager' | 'accountant' | 'customer_service' | 'customer' | 'system_admin' | 'collector' | string;
   display_name: string;
   description: string;
   permissions: Record<string, boolean>;

@@ -64,6 +64,20 @@ class SystemAdminCompanyViewSet(viewsets.ModelViewSet):
         
         return queryset
     
+    def create(self, request, *args, **kwargs):
+        """Create a new company and automatically create an admin user."""
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        company = serializer.save()
+        
+        # Get admin credentials if they were created
+        response_data = CompanyDetailSerializer(company, context={'request': request}).data
+        if hasattr(company, '_admin_credentials'):
+            response_data['admin_credentials'] = company._admin_credentials
+        
+        headers = self.get_success_headers(serializer.data)
+        return Response(response_data, status=status.HTTP_201_CREATED, headers=headers)
+    
     @action(detail=False, methods=['get'])
     def statistics(self, request):
         """Get overall system statistics."""
@@ -117,6 +131,39 @@ class SystemAdminCompanyViewSet(viewsets.ModelViewSet):
         
         serializer = self.get_serializer(company)
         return Response(serializer.data)
+    
+    @action(detail=True, methods=['get'])
+    def stats(self, request, pk=None):
+        """Get statistics for a specific company."""
+        company = self.get_object()
+        
+        # Get counts
+        customers = Customer.objects.filter(company=company)
+        collectors = Collector.objects.filter(company=company)
+        
+        from operations.models import ServiceArea, Schedule
+        service_areas = ServiceArea.objects.filter(company=company)
+        
+        # Get today's collections
+        today = timezone.now().date()
+        from datetime import datetime
+        today_start = datetime.combine(today, datetime.min.time())
+        today_end = datetime.combine(today, datetime.max.time())
+        
+        collections_today = Schedule.objects.filter(
+            service_area__company=company,
+            scheduled_date__range=(today_start, today_end)
+        ).count()
+        
+        stats = {
+            'total_customers': customers.count(),
+            'active_customers': customers.filter(status='active').count(),
+            'total_collectors': collectors.count(),
+            'service_areas': service_areas.count(),
+            'collections_today': collections_today,
+        }
+        
+        return Response(stats)
     
     @action(detail=True, methods=['get'])
     def customers(self, request, pk=None):

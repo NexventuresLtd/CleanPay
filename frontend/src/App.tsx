@@ -24,6 +24,18 @@ import {
 
 // System Admin Pages
 import SystemAdminDashboard from "./pages/admin/SystemAdminDashboard";
+import CompaniesPage from "./pages/admin/CompaniesPage";
+import CompanyFormPage from "./pages/admin/CompanyFormPage";
+import CompanyDetailPage from "./pages/admin/CompanyDetailPage";
+import UsersManagementPage from "./pages/admin/UsersManagementPage";
+import ReportsPage from "./pages/admin/ReportsPage";
+
+// Dashboard Pages
+import CompanyReportsPage from "./pages/dashboard/CompanyReportsPage";
+import SettingsPage from "./pages/dashboard/SettingsPage";
+
+// System Admin Pages (continued)
+import SystemAdminSettingsPage from "./pages/admin/SystemAdminSettingsPage";
 
 // Customer Portal Pages
 import { CustomerPortalDashboard } from "./pages/portal/CustomerPortalDashboard";
@@ -31,6 +43,7 @@ import { CustomerPortalTopUp } from "./pages/portal/CustomerPortalTopUp";
 import { CustomerPortalPayments } from "./pages/portal/CustomerPortalPayments";
 import { CustomerPortalSchedules } from "./pages/portal/CustomerPortalSchedules";
 import { CustomerPortalProfile } from "./pages/portal/CustomerPortalProfile";
+import CustomerPortalSettings from "./pages/portal/CustomerPortalSettings";
 
 // Collector Portal Pages
 import {
@@ -63,14 +76,38 @@ function App() {
           <Route element={<ProtectedRoute />}>
             {/* System Admin Routes */}
             <Route path="/system-admin" element={<SystemAdminDashboard />} />
+            <Route path="/system-admin/companies" element={<CompaniesPage />} />
+            <Route
+              path="/system-admin/companies/new"
+              element={<CompanyFormPage />}
+            />
             <Route
               path="/system-admin/companies/:id"
-              element={<SystemAdminDashboard />}
+              element={<CompanyDetailPage />}
+            />
+            <Route
+              path="/system-admin/companies/:id/edit"
+              element={<CompanyFormPage />}
+            />
+            <Route
+              path="/system-admin/users"
+              element={<UsersManagementPage />}
+            />
+            <Route path="/system-admin/reports" element={<ReportsPage />} />
+            <Route
+              path="/system-admin/settings"
+              element={<SystemAdminSettingsPage />}
             />
 
             <Route element={<StaffRoute />}>
               {/* Dashboard */}
               <Route path="/dashboard" element={<DashboardPage />} />
+
+              {/* Reports */}
+              <Route path="/reports" element={<CompanyReportsPage />} />
+
+              {/* Settings */}
+              <Route path="/settings" element={<SettingsPage />} />
 
               {/* Customer Management */}
               <Route path="/customers" element={<CustomersPage />} />
@@ -141,6 +178,10 @@ function App() {
               <Route
                 path="/portal/profile"
                 element={<CustomerPortalProfile />}
+              />
+              <Route
+                path="/portal/settings"
+                element={<CustomerPortalSettings />}
               />
             </Route>
 

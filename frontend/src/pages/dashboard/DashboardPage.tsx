@@ -14,8 +14,21 @@ export const DashboardPage = () => {
         <div className="bg-gradient-to-r from-primary to-primary-dark rounded-2xl p-8 text-white">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold mb-2">
-                Welcome back, {user?.first_name}! 👋
+              <h1 className="text-2xl font-bold mb-2 flex items-center gap-2">
+                Welcome back, {user?.first_name}!
+                <svg
+                  className="w-7 h-7"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11"
+                  />
+                </svg>
               </h1>
               <p className="text-white/80">
                 Here's what's happening with your operations today.
@@ -32,7 +45,7 @@ export const DashboardPage = () => {
               <Button
                 variant="primary"
                 onClick={() => navigate("/schedules")}
-                className="bg-white text-primary hover:bg-white/90"
+                className="bg-neutral-800 text-primary hover:bg-neutral-800/90"
               >
                 View Schedules
               </Button>
@@ -361,40 +374,110 @@ export const DashboardPage = () => {
                 customer: "Kigali Coffee Co.",
                 amount: "RWF 120,000",
                 time: "2 minutes ago",
-                icon: "💰",
+                icon: (
+                  <svg
+                    className="w-6 h-6 text-success"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                ),
               },
               {
                 action: "Collection completed",
                 customer: "Route A - Kigali Central",
                 amount: "45 stops",
                 time: "15 minutes ago",
-                icon: "✅",
+                icon: (
+                  <svg
+                    className="w-6 h-6 text-success"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                ),
               },
               {
                 action: "New customer added",
                 customer: "Green Gardens Hotel",
                 amount: "",
                 time: "1 hour ago",
-                icon: "👤",
+                icon: (
+                  <svg
+                    className="w-6 h-6 text-info"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
+                    />
+                  </svg>
+                ),
               },
               {
                 action: "Invoice sent",
                 customer: "Mille Collines Hotel",
                 amount: "RWF 450,000",
                 time: "2 hours ago",
-                icon: "📧",
+                icon: (
+                  <svg
+                    className="w-6 h-6 text-primary"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                    />
+                  </svg>
+                ),
               },
               {
                 action: "Schedule updated",
                 customer: "Route C - Kicukiro",
                 amount: "",
                 time: "3 hours ago",
-                icon: "📅",
+                icon: (
+                  <svg
+                    className="w-6 h-6 text-warning"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                    />
+                  </svg>
+                ),
               },
             ].map((item, i) => (
               <div key={i} className="flex items-center justify-between py-4">
                 <div className="flex items-center gap-4">
-                  <span className="text-2xl">{item.icon}</span>
+                  <div className="p-2 bg-bg-subtle rounded-lg">{item.icon}</div>
                   <div>
                     <p className="font-medium text-text-primary">
                       {item.action}

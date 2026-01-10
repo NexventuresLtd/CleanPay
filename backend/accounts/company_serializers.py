@@ -61,11 +61,55 @@ class CompanyCreateSerializer(serializers.ModelSerializer):
         ]
     
     def create(self, validated_data):
+        from .models import User, Role
+        from django.db import transaction
+        
         # Set created_by from request context
         request = self.context.get('request')
         if request and hasattr(request, 'user'):
             validated_data['created_by'] = request.user
-        return super().create(validated_data)
+        
+        # Create company and admin user in a transaction
+        with transaction.atomic():
+            company = super().create(validated_data)
+            
+            # Get or create admin role
+            admin_role, _ = Role.objects.get_or_create(
+                name='admin',
+                defaults={'description': 'Company administrator with full access to company data'}
+            )
+            
+            # Create admin user for the company
+            # Generate username from company name
+            username_base = company.name.lower().replace(' ', '_').replace('&', 'and')[:30]
+            admin_email = f'admin@{username_base}.rw' if '@' not in validated_data['email'] else validated_data['email'].replace('@', '+admin@')
+            
+            # Check if email already exists, generate unique one if needed
+            email_counter = 1
+            unique_email = admin_email
+            while User.objects.filter(email=unique_email).exists():
+                unique_email = f'admin{email_counter}@{username_base}.rw'
+                email_counter += 1
+            
+            # Create the admin user with default password
+            admin_user = User.objects.create_user(
+                email=unique_email,
+                password='Admin@123',  # Default password - should be changed on first login
+                role=admin_role,
+                company=company,
+                first_name='Admin',
+                last_name=company.name,
+                is_active=True
+            )
+            
+            # Store admin credentials info (will be returned in response)
+            company._admin_credentials = {
+                'email': unique_email,
+                'password': 'Admin@123',
+                'message': 'Admin user created. Please change password on first login.'
+            }
+            
+            return company
 
 
 class CompanyUpdateSerializer(serializers.ModelSerializer):

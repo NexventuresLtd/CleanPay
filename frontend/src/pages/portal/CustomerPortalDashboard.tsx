@@ -7,10 +7,19 @@ import { CustomerPortalLayout } from "../../components/layout/CustomerPortalLayo
 import { Card } from "../../components/common/Card";
 import { StatusBadge } from "../../components/common/Badge";
 import { PageLoader } from "../../components/common/LoadingSpinner";
-import { usePortalDashboard } from "../../hooks/useCustomerPortal";
+import { CustomerCard } from "../../components/customer/CustomerCard";
+import {
+  usePortalDashboard,
+  usePortalProfile,
+} from "../../hooks/useCustomerPortal";
 
 export const CustomerPortalDashboard = () => {
   const { data: dashboard, isLoading, error } = usePortalDashboard();
+  const {
+    data: profile,
+    isLoading: profileLoading,
+    error: profileError,
+  } = usePortalProfile();
 
   const formatDate = (dateStr: string) => {
     const date = new Date(dateStr);
@@ -65,114 +74,17 @@ export const CustomerPortalDashboard = () => {
           </p>
         </div>
 
-        {/* Summary Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <Card className="bg-linear-to-br from-primary to-primary-dark text-white">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm opacity-80">Remaining Collections</p>
-                <p className="text-2xl font-bold mt-1">
-                  {dashboard?.summary.remaining_collections || 0}
-                </p>
-              </div>
-              <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-              </div>
-            </div>
-          </Card>
-
-          {/* <Card>
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-text-secondary">Pending Invoices</p>
-                <p className="text-2xl font-bold text-text-primary mt-1">
-                  {dashboard?.summary.pending_invoices_count || 0}
-                </p>
-              </div>
-              <div className="w-12 h-12 bg-warning-light rounded-xl flex items-center justify-center">
-                <svg
-                  className="w-6 h-6 text-warning"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                  />
-                </svg>
-              </div>
-            </div>
-          </Card> */}
-
-          <Card>
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-text-secondary">
-                  Upcoming Collections
-                </p>
-                <p className="text-2xl font-bold text-text-primary mt-1">
-                  {dashboard?.summary.upcoming_schedules_count || 0}
-                </p>
-              </div>
-              <div className="w-12 h-12 bg-info-light rounded-xl flex items-center justify-center">
-                <svg
-                  className="w-6 h-6 text-info"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                  />
-                </svg>
-              </div>
-            </div>
-          </Card>
-
-          <Card>
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-text-secondary">Payment Methods</p>
-                <p className="text-2xl font-bold text-text-primary mt-1">
-                  {dashboard?.summary.payment_methods_count || 0}
-                </p>
-              </div>
-              <div className="w-12 h-12 bg-success-light rounded-xl flex items-center justify-center">
-                <svg
-                  className="w-6 h-6 text-success"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
-                  />
-                </svg>
-              </div>
-            </div>
-          </Card>
-        </div>
+        {/* Customer Card */}
+        {dashboard && (
+          <CustomerCard
+            customerName={profile.full_name || ""}
+            cardNumber={profile.card_number || "N/A"}
+            location={profile.location_display || "N/A"}
+            serviceProvider={profile.service_provider || "N/A"}
+            accountStatus={profile.status || "active"}
+            prepaidBalance={profile.prepaid_balance || 0}
+          />
+        )}
 
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 gap-6">
