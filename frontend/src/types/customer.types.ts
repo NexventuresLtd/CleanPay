@@ -23,12 +23,13 @@ export interface Customer {
   deleted_at: string | null;
 }
 
+// Rwanda address structure
 export interface Address {
-  street: string;
-  city: string;
-  state: string;
-  postal_code: string;
-  country: string;
+  district?: string;
+  sector?: string;
+  cell?: string;
+  village?: string;
+  street?: string;
 }
 
 export interface PaymentMethod {

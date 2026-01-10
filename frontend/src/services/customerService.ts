@@ -5,12 +5,13 @@
 
 import api from './api';
 
+// Rwanda address structure
 export interface Address {
-  street: string;
-  city: string;
-  state: string;
-  postal_code: string;
-  country: string;
+  district?: string;
+  sector?: string;
+  cell?: string;
+  village?: string;
+  street?: string;
 }
 
 // Type for customer updates (partial fields allowed)
@@ -120,7 +121,7 @@ export interface CreateCustomerData {
   company_name?: string;
   first_name: string;
   last_name: string;
-  email: string;
+  email?: string; // Optional for IsukuPay - customers use card numbers
   phone?: string;
   tax_id?: string;
   website?: string;

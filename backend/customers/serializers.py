@@ -262,14 +262,16 @@ class CustomerCreateUpdateSerializer(serializers.ModelSerializer):
         return data
     
     def validate_billing_address(self, value):
-        """Validate billing address format."""
+        """Validate billing address format for Rwanda."""
         if value:
-            required_fields = ['street', 'city', 'state', 'postal_code', 'country']
-            missing_fields = [field for field in required_fields if not value.get(field)]
-            if missing_fields:
-                raise serializers.ValidationError(
-                    f"Billing address is missing required fields: {', '.join(missing_fields)}"
-                )
+            # Rwanda address structure: district, sector, cell, village, street
+            # All fields are optional
+            allowed_fields = ['district', 'sector', 'cell', 'village', 'street']
+            for field in value.keys():
+                if field not in allowed_fields:
+                    raise serializers.ValidationError(
+                        f"Invalid address field: {field}. Allowed fields are: {', '.join(allowed_fields)}"
+                    )
         return value
     
     def validate_credit_limit(self, value):
