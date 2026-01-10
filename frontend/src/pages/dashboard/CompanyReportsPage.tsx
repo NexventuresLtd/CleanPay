@@ -6,7 +6,6 @@
 import { useState } from "react";
 import { AppLayout } from "../../components/layout";
 import { Card } from "../../components/common";
-import { useAuth } from "../../hooks/useAuth";
 import {
   TrendingUp,
   TrendingDown,
@@ -19,7 +18,6 @@ import {
 } from "lucide-react";
 
 export const CompanyReportsPage = () => {
-  const { user } = useAuth();
   const [timeRange, setTimeRange] = useState("30days");
   const [reportType, setReportType] = useState("overview");
 

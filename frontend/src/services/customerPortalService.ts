@@ -17,6 +17,10 @@ export interface CustomerPortalProfile {
   email: string;
   phone: string;
   company_name: string;
+  card_number?: string;
+  prepaid_balance?: number;
+  location_display?: string;
+  service_provider?: string;
   billing_address: {
     street?: string;
     city?: string;

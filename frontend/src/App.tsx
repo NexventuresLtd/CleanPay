@@ -13,10 +13,12 @@ import CustomerFormPage from "./pages/customers/CustomerFormPage";
 // Operations Pages (Admin/Staff)
 import {
   ServiceAreasPage,
+  ServiceAreaDetailPage,
   ServiceAreaFormPage,
   RoutesPage,
   RouteFormPage,
   CollectorsPage,
+  CollectorDetailPage,
   CollectorFormPage,
   SchedulesPage,
   ScheduleFormPage,
@@ -33,6 +35,7 @@ import ReportsPage from "./pages/admin/ReportsPage";
 // Dashboard Pages
 import CompanyReportsPage from "./pages/dashboard/CompanyReportsPage";
 import SettingsPage from "./pages/dashboard/SettingsPage";
+import TransactionsPage from "./pages/transactions/TransactionsPage";
 
 // System Admin Pages (continued)
 import SystemAdminSettingsPage from "./pages/admin/SystemAdminSettingsPage";
@@ -103,6 +106,9 @@ function App() {
               {/* Dashboard */}
               <Route path="/dashboard" element={<DashboardPage />} />
 
+              {/* Transactions */}
+              <Route path="/transactions" element={<TransactionsPage />} />
+
               {/* Reports */}
               <Route path="/reports" element={<CompanyReportsPage />} />
 
@@ -128,6 +134,10 @@ function App() {
                 element={<ServiceAreaFormPage />}
               />
               <Route
+                path="/operations/service-areas/:id"
+                element={<ServiceAreaDetailPage />}
+              />
+              <Route
                 path="/operations/service-areas/:id/edit"
                 element={<ServiceAreaFormPage />}
               />
@@ -147,6 +157,10 @@ function App() {
               <Route
                 path="/operations/collectors/new"
                 element={<CollectorFormPage />}
+              />
+              <Route
+                path="/operations/collectors/:id"
+                element={<CollectorDetailPage />}
               />
               <Route
                 path="/operations/collectors/:id/edit"

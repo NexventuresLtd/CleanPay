@@ -53,6 +53,7 @@ export interface UserUpdateData {
   language?: string;
   email_notifications?: boolean;
   sms_notifications?: boolean;
+  is_active?: boolean;
 }
 
 export interface UserCreateData extends RegisterData {

@@ -13,7 +13,7 @@ export interface Company {
   email: string;
   phone?: string;
   website?: string;
-  address: {
+  address?: {
     district?: string;
     sector?: string;
     cell?: string;

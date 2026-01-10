@@ -95,6 +95,24 @@ class Customer(models.Model):
         help_text="Name of the waste collection service provider (e.g., C&GS Ltd)"
     )
     
+    # Operations relationship
+    service_area = models.ForeignKey(
+        'operations.ServiceArea',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='customers',
+        help_text='Service area where customer is located'
+    )
+    route = models.ForeignKey(
+        'operations.Route',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='customers',
+        help_text='Collection route assigned to customer'
+    )
+    
     # Payment Settings (Prepaid balance for waste collection counts)
     prepaid_balance = models.IntegerField(
         default=0,

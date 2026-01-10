@@ -15,11 +15,7 @@ import {
 
 export const CustomerPortalDashboard = () => {
   const { data: dashboard, isLoading, error } = usePortalDashboard();
-  const {
-    data: profile,
-    isLoading: profileLoading,
-    error: profileError,
-  } = usePortalProfile();
+  const { data: profile } = usePortalProfile();
 
   const formatDate = (dateStr: string) => {
     const date = new Date(dateStr);
@@ -75,7 +71,7 @@ export const CustomerPortalDashboard = () => {
         </div>
 
         {/* Customer Card */}
-        {dashboard && (
+        {dashboard && profile && (
           <CustomerCard
             customerName={profile.full_name || ""}
             cardNumber={profile.card_number || "N/A"}

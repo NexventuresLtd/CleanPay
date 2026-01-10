@@ -11,7 +11,6 @@ import { PageLoader } from "../../components/common/LoadingSpinner";
 import companyService from "../../services/companyService";
 import {
   ArrowLeft,
-  Building2,
   Mail,
   Phone,
   Globe,
@@ -318,19 +317,21 @@ export const CompanyDetailPage = () => {
                 <dd className="mt-1 flex items-start gap-2 text-sm text-slate-900">
                   <MapPin className="w-4 h-4 text-slate-400 mt-0.5" />
                   <div>
-                    {company.address.street && (
+                    {company.address?.street && (
                       <div>{company.address.street}</div>
                     )}
-                    <div>
-                      {[
-                        company.address.village,
-                        company.address.cell,
-                        company.address.sector,
-                        company.address.district,
-                      ]
-                        .filter(Boolean)
-                        .join(", ")}
-                    </div>
+                    {company.address && (
+                      <div>
+                        {[
+                          company.address.village,
+                          company.address.cell,
+                          company.address.sector,
+                          company.address.district,
+                        ]
+                          .filter(Boolean)
+                          .join(", ")}
+                      </div>
+                    )}
                   </div>
                 </dd>
               </div>

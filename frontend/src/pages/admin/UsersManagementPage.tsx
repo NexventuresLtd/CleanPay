@@ -5,7 +5,6 @@
 
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
 import { AppLayout } from "../../components/layout";
 import { Card, Button, Input } from "../../components/common";
 import { PageLoader } from "../../components/common/LoadingSpinner";
@@ -235,7 +234,11 @@ export const UsersManagementPage = () => {
               <div>
                 <p className="text-sm text-slate-600">System Admins</p>
                 <p className="text-xl font-bold text-slate-900">
-                  {users.filter((u: any) => u.role_details.name === "system_admin").length}
+                  {
+                    users.filter(
+                      (u: any) => u.role_details.name === "system_admin"
+                    ).length
+                  }
                 </p>
               </div>
             </div>
@@ -249,7 +252,10 @@ export const UsersManagementPage = () => {
               <div>
                 <p className="text-sm text-slate-600">Company Admins</p>
                 <p className="text-xl font-bold text-slate-900">
-                  {users.filter((u: any) => u.role_details.name === "admin").length}
+                  {
+                    users.filter((u: any) => u.role_details.name === "admin")
+                      .length
+                  }
                 </p>
               </div>
             </div>
@@ -263,7 +269,11 @@ export const UsersManagementPage = () => {
               <div>
                 <p className="text-sm text-slate-600">Collectors</p>
                 <p className="text-xl font-bold text-slate-900">
-                  {users.filter((u: any) => u.role_details.name === "collector").length}
+                  {
+                    users.filter(
+                      (u: any) => u.role_details.name === "collector"
+                    ).length
+                  }
                 </p>
               </div>
             </div>
@@ -277,7 +287,10 @@ export const UsersManagementPage = () => {
               <div>
                 <p className="text-sm text-slate-600">Customers</p>
                 <p className="text-xl font-bold text-slate-900">
-                  {users.filter((u: any) => u.role_details.name === "customer").length}
+                  {
+                    users.filter((u: any) => u.role_details.name === "customer")
+                      .length
+                  }
                 </p>
               </div>
             </div>
@@ -339,7 +352,9 @@ export const UsersManagementPage = () => {
                           {user.email}
                         </div>
                       </td>
-                      <td className="py-3 px-4">{getRoleBadge(user.role_details.name)}</td>
+                      <td className="py-3 px-4">
+                        {getRoleBadge(user.role_details.name)}
+                      </td>
                       <td className="py-3 px-4">
                         {user.company ? (
                           <div className="text-sm text-slate-900">

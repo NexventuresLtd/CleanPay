@@ -18,7 +18,7 @@ interface CustomerCardProps {
   cardNumber: string;
   location: string;
   serviceProvider: string;
-  accountStatus: "active" | "pending" | "suspended";
+  accountStatus: "active" | "pending" | "suspended" | "archived";
   prepaidBalance?: number;
 }
 
@@ -58,6 +58,15 @@ export const CustomerCard = ({
           textColor: "text-red-700",
           borderColor: "border-red-200",
           iconColor: "text-red-600",
+        };
+      case "archived":
+        return {
+          icon: XCircle,
+          text: "Archived",
+          bgColor: "bg-slate-50",
+          textColor: "text-slate-700",
+          borderColor: "border-slate-200",
+          iconColor: "text-slate-600",
         };
       default:
         return {

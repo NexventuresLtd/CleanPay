@@ -100,13 +100,21 @@ export const CompanyFormPage = () => {
       registration_number: company.registration_number || "",
       tax_id: company.tax_id || "",
       website: company.website || "",
-      address: company.address || {
-        district: "",
-        sector: "",
-        cell: "",
-        village: "",
-        street: "",
-      },
+      address: company.address
+        ? {
+            district: company.address.district || "",
+            sector: company.address.sector || "",
+            cell: company.address.cell || "",
+            village: company.address.village || "",
+            street: company.address.street || "",
+          }
+        : {
+            district: "",
+            sector: "",
+            cell: "",
+            village: "",
+            street: "",
+          },
       service_districts: company.service_districts || [],
       max_customers: company.max_customers || 1000,
       max_collectors: company.max_collectors || 50,

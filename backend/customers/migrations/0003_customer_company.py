@@ -9,6 +9,7 @@ class Migration(migrations.Migration):
     dependencies = [
         ('accounts', '0003_user_company_name_alter_role_name_company_and_more'),
         ('customers', '0002_isukupay_updates'),
+        ('operations', '0001_initial'),
     ]
 
     operations = [
@@ -16,5 +17,29 @@ class Migration(migrations.Migration):
             model_name='customer',
             name='company',
             field=models.ForeignKey(blank=True, help_text='Waste collection company serving this customer', null=True, on_delete=django.db.models.deletion.CASCADE, related_name='customers', to='accounts.company'),
+        ),
+        migrations.AddField(
+            model_name='customer',
+            name='service_area',
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name='customers',
+                to='operations.servicearea',
+                help_text='Service area where customer is located'
+            ),
+        ),
+        migrations.AddField(
+            model_name='customer',
+            name='route',
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name='customers',
+                to='operations.route',
+                help_text='Collection route assigned to customer'
+            ),
         ),
     ]
